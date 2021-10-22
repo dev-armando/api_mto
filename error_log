@@ -1,0 +1,46 @@
+[19-Aug-2021 00:13:21 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/api/artisan on line 18
+[19-Aug-2021 00:13:21 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/api/artisan on line 18
+[19-Aug-2021 00:13:21 America/Argentina/Buenos_Aires] PHP Fatal error:  require(): Failed opening required '/home/meticket/api/vendor/autoload.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/meticket/api/artisan on line 18
+[19-Aug-2021 00:13:28 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/api/artisan on line 18
+[19-Aug-2021 00:13:28 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/api/artisan on line 18
+[19-Aug-2021 00:13:28 America/Argentina/Buenos_Aires] PHP Fatal error:  require(): Failed opening required '/home/meticket/api/vendor/autoload.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/meticket/api/artisan on line 18
+[19-Aug-2021 00:20:24 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:20:24 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:20:24 America/Argentina/Buenos_Aires] PHP Fatal error:  require(): Failed opening required '/home/meticket/public_html/api/vendor/autoload.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:21:16 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:21:16 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:21:16 America/Argentina/Buenos_Aires] PHP Fatal error:  require(): Failed opening required '/home/meticket/public_html/api/vendor/autoload.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:21:28 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:21:28 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:21:28 America/Argentina/Buenos_Aires] PHP Fatal error:  require(): Failed opening required '/home/meticket/public_html/api/vendor/autoload.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:22:28 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:22:28 America/Argentina/Buenos_Aires] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 00:22:28 America/Argentina/Buenos_Aires] PHP Fatal error:  require(): Failed opening required '/home/meticket/public_html/api/vendor/autoload.php' (include_path='.:/opt/alt/php72/usr/share/pear') in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 03:39:25 UTC] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 03:39:25 UTC] PHP Warning:  require(/home/meticket/public_html/api/vendor/autoload.php): failed to open stream: No such file or directory in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 03:39:25 UTC] PHP Fatal error:  require(): Failed opening required '/home/meticket/public_html/api/vendor/autoload.php' (include_path='.:/opt/alt/php73/usr/share/pear') in /home/meticket/public_html/api/artisan on line 18
+[19-Aug-2021 03:39:43 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/meticket/public_html/api/bootstrap/app.php:14
+Stack trace:
+#0 /home/meticket/public_html/api/artisan(20): require_once()
+#1 {main}
+  thrown in /home/meticket/public_html/api/bootstrap/app.php on line 14
+[19-Aug-2021 03:40:07 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/meticket/public_html/api/bootstrap/app.php:14
+Stack trace:
+#0 /home/meticket/public_html/api/artisan(20): require_once()
+#1 {main}
+  thrown in /home/meticket/public_html/api/bootstrap/app.php on line 14
+[19-Aug-2021 03:40:13 UTC] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/meticket/public_html/api/bootstrap/app.php:14
+Stack trace:
+#0 /home/meticket/public_html/api/artisan(20): require_once()
+#1 {main}
+  thrown in /home/meticket/public_html/api/bootstrap/app.php on line 14
+[19-Aug-2021 16:11:58 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/meticket/public_html/api/bootstrap/app.php:14
+Stack trace:
+#0 /home/meticket/public_html/api/artisan(20): require_once()
+#1 {main}
+  thrown in /home/meticket/public_html/api/bootstrap/app.php on line 14
+[19-Aug-2021 16:13:19 America/Argentina/Buenos_Aires] PHP Fatal error:  Uncaught Error: Class 'Illuminate\Foundation\Application' not found in /home/meticket/public_html/api/bootstrap/app.php:14
+Stack trace:
+#0 /home/meticket/public_html/api/artisan(20): require_once()
+#1 {main}
+  thrown in /home/meticket/public_html/api/bootstrap/app.php on line 14
