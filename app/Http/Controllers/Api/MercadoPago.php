@@ -76,6 +76,7 @@ class MercadoPago extends Controller
             $entity->public_key = $response['public_key'];
             $entity->time_token = now()->format('Y-m-d');
             $entity->fee = env('MP_FEE');
+            $entity->save();
 
 
             DB::commit();
