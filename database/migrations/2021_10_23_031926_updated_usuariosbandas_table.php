@@ -17,7 +17,8 @@ class UpdatedUsuariosbandasTable extends Migration
             $table->string('refresh_token')->nullable();
             $table->string('access_token')->nullable();
             $table->date("time_token")->nullable();
-            $table->string("fee")->nullable();
+            $table->double("fee")->nullable();
+            $table->string("public_key")->nullable();
             $table->string("number_random")->nullable();
 
         });

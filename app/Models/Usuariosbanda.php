@@ -63,7 +63,7 @@ class Usuariosbanda extends Authenticatable implements JWTSubject
 		'cp',
 		'telefono',
 		'documento',
-		'fechaMod'
+		'fechaMod',
 	];
 
     public function getJWTIdentifier()
