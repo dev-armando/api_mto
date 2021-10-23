@@ -60,13 +60,15 @@ class MercadoPago extends Controller
 
             if(!$entity) throw new Exception("User not found", 404);
 
-            $response = Http::retry(3, 100)->post( SELF::URL_OAUTH  , [
+            $body = [
                 'client_secret' => env('MP_CLIENT_SECRET'),
                 'client_ID' => env('MP_CLIENT_ID'),
                 'grant_type' => 'authorization_code',
                 'code' => $code ,
                 'redirect_uri' => env('MP_URL_CB'),
-            ]);
+            ];
+
+            $response = Http::retry(3, 100)->post( SELF::URL_OAUTH  , $body);
 
             if($response->throw()) throw new Exception("Http Error", 400);
 
@@ -85,7 +87,7 @@ class MercadoPago extends Controller
         }catch(\Exception $e){
             $code = $this->getCleanCode($e);
             $response= $this->getErrorResponse($e, 'Error al redireccionar el usuario');
-            Log::error("No Redirect Mercado Pago" . json_encode( compact('code' , 'data' , 'response') ));
+            Log::error("No Redirect Mercado Pago" . json_encode( compact('code' , 'state', 'code', 'body' , 'response') ));
             $url = env('URL_ADMIN_PANEL') . '?error=2';
         }
 
