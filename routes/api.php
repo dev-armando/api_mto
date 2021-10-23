@@ -22,3 +22,7 @@ Route::get('/logout','Api\UserController@logout')->middleware('jwt.verify');
 Route::group(['middleware' => ['jwt.verify']], function() {
     Route::get('/verify','Api\UserController@getAuthenticatedUser');
 });
+
+Route::prefix('mercadopago')->group(function () {
+    Route::get('/', 'Api\MercadoPago@authorization');
+});

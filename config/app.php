@@ -178,7 +178,7 @@ return [
        // Spatie\Permission\PermissionServiceProvider::class,
 
         //Maatwebsite\Excel\ExcelServiceProvider::class,
-        Reliese\Coders\CodersServiceProvider::class,
+       // Reliese\Coders\CodersServiceProvider::class,
     ],
 
     /*
