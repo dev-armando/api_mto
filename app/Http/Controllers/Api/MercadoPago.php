@@ -62,7 +62,7 @@ class MercadoPago extends Controller
 
             $body = [
                 'client_secret' => env('MP_CLIENT_SECRET'),
-                'client_ID' => env('MP_CLIENT_ID'),
+                'client_id' => env('MP_CLIENT_ID'),
                 'grant_type' => 'authorization_code',
                 'code' => $code ,
                 'redirect_uri' => env('MP_URL_CB'),
