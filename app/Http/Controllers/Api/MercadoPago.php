@@ -68,7 +68,9 @@ class MercadoPago extends Controller
                 'redirect_uri' => env('MP_URL_CB'),
             ];
 
-            $response = Http::retry(3, 100)->post( SELF::URL_OAUTH  , $body);
+            return $body;
+
+            //$response = Http::post( SELF::URL_OAUTH  , $body);
 
             if($response->throw()) throw new Exception("Http Error", 400);
 
