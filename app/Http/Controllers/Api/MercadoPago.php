@@ -14,38 +14,14 @@ class MercadoPago extends Controller
 
     public function authorization(){
 
-        $url =  SELF::URL_AUTH . "?client_id={$app_id}&response_type=code&platform_id=mp&state={$random_id}&redirect_uri={$redirect_url}";
+       // $url =  SELF::URL_AUTH . "?client_id={$app_id}&response_type=code&platform_id=mp&state={$random_id}&redirect_uri={$redirect_url}";
+        //return redirect($url);
 
-
-        return redirect($url);
+        return [];
     }
 
-    public function auth(Request $request){
-        /*try {
-            $credentials = $request->only('usu00', 'contra00');
-
-            $user = Usuariosbanda::where(function ($query)use($credentials){
-                $query->where('usuariotie', $credentials['usu00'])
-                    ->OrWhere('usuariotie' , 'like' , "%{$credentials['usu00']}@%")
-                    ->OrWhere('email' , $credentials['usu00'] );
-            })->where('contrasena' , md5($credentials['contra00']) )
-                ->first();
-
-
-            if (!$token = JWTAuth::fromUser($user) )
-                throw new JWTException('Credenciales inválidas',400);
-
-            $response=[
-                "token"=>$token,
-                "user"=>  $user ,
-                "message"=>"Autenticación exitosa"
-            ];
-
-        } catch (\Exception $e) {
-            $code = $this->getCleanCode($e);
-            $response= $this->getErrorResponse($e,  "No se ha podido crear el token de usuario");
-        }//catch
-        return $this->response($response, $code ?? 200);*/
+    public function redirect(){
+        return [];
     }
 
 }
