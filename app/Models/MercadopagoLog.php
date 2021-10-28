@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class MercadopagoLog
- * 
+ *
  * @property int $id_campania
  * @property string|null $respuesta
  * @property string $email
@@ -86,4 +86,8 @@ class MercadopagoLog extends Model
 		'nom_ape',
 		'id_credenciales_mp'
 	];
+
+	public function marketplaceLog(){
+		return $this->hasOne(MarketplaceLog::class, 'id_log_mp', 'id_operation');
+	}
 }
