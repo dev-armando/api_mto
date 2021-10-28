@@ -24,6 +24,12 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 });
 
 Route::prefix('mercadopago')->group(function () {
-    Route::get('/authorization/{user_id}', 'Api\MercadoPago@authorization');
-    Route::get('/redirect', 'Api\MercadoPago@redirect');
+    Route::get('/', 'Api\MercadoPagoController@index');
+    Route::get('/authorization/{user_id}', 'Api\MercadoPagoController@authorization');
+    Route::get('/redirect', 'Api\MercadoPagoController@redirect');
+
+});
+
+Route::prefix('campania')->group(function () {
+    Route::get('/', 'Api\CampaniaController@index');
 });

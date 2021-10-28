@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Campanium
- * 
+ *
  * @property int $id_campania
  * @property int $id_comercio
  * @property int $id_artista
@@ -176,4 +176,14 @@ class Campanium extends Model
 		'campania_clave_transmision',
 		'id_credenciales_mp'
 	];
+
+	public function mercadopagoLog(){
+		return $this->hasMany(MercadopagoLog::class , 'id_campania' , 'id_campania' );
+	}
+
+	public function artist(){
+		return $this->hasOne(Usuariosbanda::class , 'idusuario' , 'id_artista');
+	}
 }
+
+

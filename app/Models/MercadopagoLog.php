@@ -90,4 +90,8 @@ class MercadopagoLog extends Model
 	public function marketplaceLog(){
 		return $this->hasOne(MarketplaceLog::class, 'id_log_mp', 'id_operation');
 	}
+
+	public function campania(){
+		return $this->hasOne(Campanium::class, 'id_campania', 'id_campania');
+	}
 }

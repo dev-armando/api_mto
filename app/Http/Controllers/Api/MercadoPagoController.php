@@ -6,9 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use App\Models\Usuariosbanda as User;
+use App\Models\{Usuariosbanda as User , MercadopagoLog };
+use App\Http\Resources\MercadopagoLogCollection as ResourceCollection;
 
-class MercadoPago extends Controller
+class MercadoPagoController extends Controller
 {
 
     const URL_AUTH =  'https://auth.mercadopago.com.ar/authorization';
@@ -94,6 +95,56 @@ class MercadoPago extends Controller
         return redirect($url);
     }
 
+    public function index(Request $request){
 
+        $include = $request->input('include') ?? [];
+        $id_campania = $request->input('id_campania');
+        $date = $request->input('date');
+        $page  = $request->input('page');
+        $orderBy= $request->input('orderBy');
+        $orderDirection= $request->input('orderDirection');
+
+        try {
+
+            $query = MercadopagoLog::with($include)->has('marketplaceLog');
+
+            if($id_campania) $query->where('id_campania' , $id_campania);
+            if($date) $query->whereDate('fecha',  '>=', $date);
+
+            if($orderBy) $query->orderBy($orderBy,$orderDirection);
+            else $query->orderBy("fecha","DESC");
+
+            if($page) $query=$query->paginate();
+            else $query=$query->get();
+
+            $data = $page ? $query->items() : $query;
+            $data = ResourceCollection::collection($data);
+
+            $response = [
+                'data' => $data,
+                "message"=>"Listado de marketplace logs"
+            ];
+
+          if($page)
+            $response['meta'] = [
+                'page' => [
+                "total" => $query->total(),
+                "lastPage" => $query->lastPage(),
+                "perPage" => $query->perPage(),
+                "currentPage" => $query->currentPage()
+                ]
+            ];
+
+
+        } catch (Exception $e) {
+
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al consultar los registros');
+
+        }
+
+        return $this->response($response, $code ?? 200);
+
+    }
 
 }
