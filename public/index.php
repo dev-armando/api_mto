@@ -1,8 +1,6 @@
 <?php
-
-
 ini_set('session.cookie_domain', '.meticketonline.com');
-if(!isset($_SESSION)) session_start();
+session_start();
 
 var_dump($_SESSION); exit;
 
