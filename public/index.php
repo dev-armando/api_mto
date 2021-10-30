@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-ini_set('session.cookie_domain', '.meticketonline.com');
+ini_set('session.cookie_domain', 'meticketonline.com');
 
 if(!isset($_SESSION)) {
     session_start();
