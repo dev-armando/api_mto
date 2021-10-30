@@ -24,6 +24,8 @@ class AuthorizationMTO
         ini_set('session.cookie_domain', '.meticketonline.com');
         if(!isset($_SESSION)) session_start();
 
+        var_dump($_SESSION); exit;
+
         if(!isset($_SESSION["nivel"] )) return response()->json( [  'message' => 'No autorizado' ] , 401);
 
         foreach ($roles as $rol) {
