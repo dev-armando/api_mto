@@ -13,27 +13,8 @@ class AuthorizationMTO
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next , $roles = '')
+    public function handle($request, Closure $next)
     {
-        $nivel = [  'admin' => 459 , 'user' => 3  ];
-        $control = false;
-        $mod_develop = env('MOD_DEVELOP');
-
-        $roles = explode('|' , $roles);
-
-        ini_set('session.cookie_domain', '.meticketonline.com');
-        if(!isset($_SESSION)) session_start();
-
-        var_dump($_SESSION); exit;
-
-        if(!isset($_SESSION["nivel"] )) return response()->json( [  'message' => 'No autorizado' ] , 401);
-
-        foreach ($roles as $rol) {
-            if($nivel[$rol]  == $_SESSION["nivel"]  ) $control = true;
-        }
-
-        if(!$control && !$mod_develop) return response()->json( [  'message' => 'No autorizado'  ] , 401);
-
         return $next($request);
     }
 }

@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Api;
 use JWTAuth , DB, Auth;
 use App\Models\{Usuariosbanda , Preregisstro };
 use App\Http\Requests\Api\PreRegisterRequest;
-//use App\Services\SendToken;
-//use App\Http\Requests\Api\{SendTokenRequest , EmailTokenRequest};
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
@@ -31,7 +29,10 @@ class UserController extends Controller
 
     public function auth(Request $request){
         try {
-            $credentials = $request->only('usu00', 'contra00');
+            $credentials = [
+              'usu00' => strtoupper($request->input('usu00')),
+              'contra00' => strtoupper($request->input('contra00'))
+            ];
 
             $user = Usuariosbanda::where(function ($query)use($credentials){
                 $query->where('usuariotie', $credentials['usu00'])
@@ -41,12 +42,14 @@ class UserController extends Controller
                 ->first();
 
 
+            if(!$user) throw new JWTException('Credenciales inválidas',400);
+
             if (!$token = JWTAuth::fromUser($user) )
                 throw new JWTException('Credenciales inválidas',400);
 
             $response=[
                 "token"=>$token,
-                "user"=>  $user ,
+                "user"=>  $user->usuariotie,
                 "message"=>"Autenticación exitosa"
             ];
 

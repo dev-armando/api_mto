@@ -22,11 +22,13 @@ class JwtRoleMiddleware
             $control = false;
             $user = JWTAuth::parseToken()->authenticate();
 
-            foreach ($roles as $rol)
+            var_dump($user); exit;
+
+           /* foreach ($roles as $rol)
                 if($user->hasRole($rol)) $control = true;
 
             if(!$control)
-                throw new Exception('unauthorized user' , 401);
+                throw new Exception('unauthorized user' , 401);*/
 
         } catch (Exception $e) {
 

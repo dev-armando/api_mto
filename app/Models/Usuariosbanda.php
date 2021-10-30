@@ -66,6 +66,8 @@ class Usuariosbanda extends Authenticatable implements JWTSubject
 		'fechaMod',
 	];
 
+	public  $hidden = [ 'contrasena'  ];
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

@@ -31,5 +31,5 @@ Route::prefix('mercadopago')->group(function () {
 });
 
 Route::prefix('campania')->group(function () {
-    Route::get('/', 'Api\CampaniaController@index')->middleware('auth.mto:admin');
+    Route::get('/', 'Api\CampaniaController@index')->middleware('jwt.verify.role:admin');
 });
