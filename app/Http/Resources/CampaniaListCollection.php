@@ -15,7 +15,7 @@ class CampaniaListCollection extends JsonResource
     {
       $data=[
         "id"=>$this->id_campania,
-        "name"=>$this->nombreCampania
+        "name"=>$this->id_campania . ' - ' .$this->nombreCampania
       ];
 
       return $data;

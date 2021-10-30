@@ -99,6 +99,7 @@ class MercadoPagoController extends Controller
 
         $include = $request->input('include') ?? [];
         $id_campania = $request->input('id_campania');
+        $payment_status = $request->input('payment_status');
         $date = $request->input('date');
         $page  = $request->input('page');
         $orderBy= $request->input('orderBy');
@@ -109,6 +110,14 @@ class MercadoPagoController extends Controller
             $query = MercadopagoLog::with($include)->has('marketplaceLog');
 
             if($id_campania) $query->where('id_campania' , $id_campania);
+            if($payment_status){
+
+                if($payment_status == 'PENDING')
+                    $query->whereIn('situaciondepago' , [$payment_status  , 'pendiente']);
+                else
+                    $query->where('situaciondepago' , $payment_status);
+
+            }
             if($date) $query->whereDate('fecha',  '>=', $date);
 
             if($orderBy) $query->orderBy($orderBy,$orderDirection);

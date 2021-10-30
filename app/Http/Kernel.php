@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
         'jwt.verify.role' => \App\Http\Middleware\JwtRoleMiddleware::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'auth.mto' => \App\Http\Middleware\AuthorizationMTO::class
     ];
 }

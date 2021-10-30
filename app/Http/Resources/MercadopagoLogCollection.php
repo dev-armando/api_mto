@@ -15,10 +15,11 @@ class MercadopagoLogCollection extends JsonResource
     {
       $data=[
         "id_campania"=>$this->id_campania,
+        "id_operation"=>$this->id_operation,
         "email_client"=>$this->email,
         "name"=>$this->nombre . ' ' . $this->apellido ,
         "dni_client"=>$this->dni  ,
-        "date"=>$this->fecha->format('d-m-Y'),
+        "date"=>$this->fecha->format('d/m/Y'),
         "payment_status" => $this->situaciondepago,
         "fee_mto"=>$this->when($this->relationLoaded("marketplaceLog"),$this->marketplaceLog->fee_mto . '%'),
         "fixed_value"=>$this->when($this->relationLoaded("marketplaceLog"),$this->marketplaceLog->fixed_value ),
