@@ -1,5 +1,11 @@
 <?php
 
+
+ini_set('session.cookie_domain', '.meticketonline.com');
+if(!isset($_SESSION)) session_start();
+
+var_dump($_SESSION); exit;
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
