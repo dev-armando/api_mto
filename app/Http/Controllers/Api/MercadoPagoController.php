@@ -71,12 +71,11 @@ class MercadoPagoController extends Controller
 
             $response = Http::post( SELF::URL_OAUTH  , $body);
 
-            $entity->number_random = '';
+            $entity->number_random = $response['user_id'];
             $entity->refresh_token = $response['refresh_token'];
             $entity->access_token = $response['access_token'];
             $entity->public_key = $response['public_key'];
             $entity->time_token = now()->format('Y-m-d');
-            $entity->fee = env('MP_FEE');
             $entity->save();
 
 
@@ -85,6 +84,7 @@ class MercadoPagoController extends Controller
             $url = env('URL_ADMIN_PANEL') . '?success=1';
 
         }catch(\Exception $e){
+            DB::rollBack();
             $code = $this->getCleanCode($e);
             $response= $this->getErrorResponse($e, 'Error al redireccionar el usuario');
             Log::error("No Redirect Mercado Pago" . json_encode( compact('code' , 'state', 'code', 'body' , 'response') ));
@@ -153,6 +153,38 @@ class MercadoPagoController extends Controller
         }
 
         return $this->response($response, $code ?? 200);
+
+    }
+
+    public function notification(Request $request){
+        try{
+            $time = now();
+            $data = $request->all();
+            DB::beginTransaction();
+            switch ($data['type']) {
+                case 'mp-connect':
+                    if($data['action'] == 'application.deauthorized'){
+
+                        $user = User::where('number_random' , $data['user_id'] )->first();
+                        if(!$user)  throw new Exception("User not found", 404);
+
+                        $user->number_random = '';
+                        $user->refresh_token = '';
+                        $user->access_token = '';
+                        $user->public_key = '';
+                        $user->save();
+                    }
+                break;
+            }
+            Log::info("# Notificacion recibida " . json_encode( compact('data','time') ));
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al recibir la notificacion');
+            Log::error("# Error al recibir notificacion " . json_encode( compact('code' ,'data','time') ));
+        }
+
 
     }
 

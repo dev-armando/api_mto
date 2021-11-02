@@ -25,6 +25,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
 
 Route::prefix('mercadopago')->group(function () {
     Route::get('/', 'Api\MercadoPagoController@index');
+    Route::post('/notification', 'Api\MercadoPagoController@index');
     Route::get('/authorization/{user_id}', 'Api\MercadoPagoController@authorization');
     Route::get('/redirect', 'Api\MercadoPagoController@redirect');
 

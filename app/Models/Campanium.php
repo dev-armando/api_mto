@@ -80,6 +80,7 @@ class Campanium extends Model
 	protected $primaryKey = 'id_campania';
 	public $timestamps = false;
 
+
 	protected $casts = [
 		'id_comercio' => 'int',
 		'id_artista' => 'int',
@@ -174,7 +175,8 @@ class Campanium extends Model
 		'link_del_stream',
 		'campania_url_servidor',
 		'campania_clave_transmision',
-		'id_credenciales_mp'
+		'id_credenciales_mp',
+		'id_campania'
 	];
 
 	public function mercadopagoLog(){
@@ -184,6 +186,11 @@ class Campanium extends Model
 	public function artist(){
 		return $this->hasOne(Usuariosbanda::class , 'idusuario' , 'id_artista');
 	}
+
+	public function entradas(){
+		return $this->hasMany(Tipoentrada::class , 'id_campania' , 'id_campania' );
+	}
+
 }
 
 
