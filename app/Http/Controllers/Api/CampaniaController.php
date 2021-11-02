@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Campanium as Model;
 use App\Http\Resources\CampaniaListCollection as ListCollectiion;
+use Exception, DB;
 
 class CampaniaController extends Controller
 {
@@ -55,5 +56,15 @@ class CampaniaController extends Controller
 
         }
         return $this->response($response, $code ?? 200);
+    }
+
+    public function store(Request $request){
+        try {
+
+        } catch (Exception $e) {
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al consultar los registros');
+
+        }
     }
 }

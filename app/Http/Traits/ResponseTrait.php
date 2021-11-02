@@ -72,4 +72,42 @@ trait ResponseTrait {
         if (!$entity) throw new \Exception($message, 404);
     }
 
+    protected function distinctList($data){
+
+        $aux = [];
+        $newData = [];
+
+        $data =  (array)json_decode(  $data->toJson() );
+
+
+        foreach ($data as $e) {
+
+            $text = strtoupper($e->text);
+            if(!in_array( $text , $aux )){
+                $aux[] = $text;
+                $newData[] = $e;
+            }
+        }
+        return $newData;
+    }
+
+    protected function addSelectAux($data){
+
+        $data[] = ['id' => 'Otros' , 'text' => 'Otros' ];
+
+        return $data;
+    }
+
+    protected function decodeUft8($data){
+
+        $newData = [];
+
+        foreach ($data as $element) {
+            $element = (array) $element;
+            $element['text'] = html_entity_decode($element['text']);
+            $newData[] = $element;
+        }
+        return $newData;
+    }
+
 }

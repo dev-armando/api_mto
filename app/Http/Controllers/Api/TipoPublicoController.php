@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\TipoPublico as Model;
 use App\Http\Resources\TipoPublicoListCollection as ListCollectiion;
 use Exception;
 
 class TipoPublicoController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
         $include = $request->input('include') ?? [];
         $type_query = $request->input('type_query');
@@ -19,17 +20,18 @@ class TipoPublicoController extends Controller
 
         try {
 
-            $query = Model::with($include)->where('nombre_tipo_publico' , 'NOT LIKE ' , 'NO MOSTRAR' );
+            $query = Model::with($include)->where('nombre_tipo_publico', 'not like', "%NO MOSTRAR%");
 
             if($orderBy) $query->orderBy($orderBy,$orderDirection);
-            else $query->orderBy("fecha","DESC");
+            else $query->orderBy("priority","ASC");
 
             if($page) $query=$query->paginate();
             else $query=$query->get();
 
             $data =  $page ? $query->items() : $query;
 
-            if($type_query == "list") $data = ListCollectiion::collection($data);
+            if($type_query == "list")  $response = ListCollectiion::collection($data);
+
 
             $response = [
                 'data' => $data,
@@ -45,6 +47,11 @@ class TipoPublicoController extends Controller
                 "currentPage" => $query->currentPage()
                 ]
             ];
+
+
+
+            if($type_query == "select2")
+                $response = ListCollectiion::collection($data);
 
 
         } catch (Exception $e) {
