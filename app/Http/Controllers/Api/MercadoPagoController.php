@@ -78,9 +78,8 @@ class MercadoPagoController extends Controller
             $entity->time_token = now()->format('Y-m-d');
             $entity->save();
 
-            $events = Campanium::where('usuario' , $entity->id)
-            ->where('estado' , 2)->where('pausado' , '1')
-            ->get();
+            $events = \App\Models\Campanium::where('usuario' , $entity->idusuario)
+            ->where('estado' , 2)->where('pausado' , '1')->get();
 
             if($events){
 
