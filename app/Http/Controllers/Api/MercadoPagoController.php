@@ -79,13 +79,13 @@ class MercadoPagoController extends Controller
             $entity->save();
 
             $events = Campanium::where('usuario' , $entity->id)
-            ->where('estado' , 2)->where('pausado' , 1)
+            ->where('estado' , 2)->where('pausado' , '1')
             ->get();
 
             if($events){
 
                 foreach ($events as  $event) {
-                    $event->pausado = 0;
+                    $event->pausado = '0';
                     $event->save();
                 }
             }
