@@ -79,8 +79,7 @@ class MercadoPagoController extends Controller
             $entity->save();
 
             $events = Campanium::where('usuario' , $entity->id)
-            ->where('estado' , 2)->where('pausado' , '1')
-            ->whereDate( 'fechaEvento' , '>='  ,now()->format('Y-m-d') )
+            ->where('estado' , 2)->where('pausado' , 1)
             ->get();
 
             if($events){
