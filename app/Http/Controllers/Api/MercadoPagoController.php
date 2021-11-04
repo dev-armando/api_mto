@@ -234,7 +234,7 @@ class MercadoPagoController extends Controller
             DB::rollBack();
             $code = $this->getCleanCode($e);
             $response= $this->getErrorResponse($e, 'Error al desvincular el usuario');
-            $url = env('URL_ADMIN_PANEL') . '?error=1';
+            $url = env('URL_ADMIN_PANEL') . '?error=3';
             Log::error("No Redirect Mercado Pago" . json_encode( compact('code' , 'response') ));
 
         }//catch
