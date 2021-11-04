@@ -27,6 +27,7 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('/', 'Api\MercadoPagoController@index');
         Route::post('/notification', 'Api\MercadoPagoController@notification');
         Route::get('/authorization/{user_id}', 'Api\MercadoPagoController@authorization');
+        Route::get('/desauthorization/{user_id}', 'Api\MercadoPagoController@desauthorization');
         Route::get('/redirect', 'Api\MercadoPagoController@redirect');
     });
     Route::prefix('campania')->group(function () {

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
-use App\Models\{Usuariosbanda as User , MercadopagoLog };
+use App\Models\{Usuariosbanda as User , MercadopagoLog, Campanium };
 use App\Http\Resources\MercadopagoLogCollection as ResourceCollection;
 
 class MercadoPagoController extends Controller
@@ -186,6 +186,45 @@ class MercadoPagoController extends Controller
         }
 
 
+    }
+
+    public function desauthorization(Request $request , $user_id){
+
+        try {
+            DB::beginTransaction();
+
+            $entity = User::find($user_id);
+            if(!$entity) throw new Exception("User not found", 404);
+
+
+            $entity->number_random = '';
+            $entity->access_token = '';
+            $entity->save();
+
+            $events = Campanium::where('usuario' , $user_id)
+            ->where('estado' , 2)->where('pausado' , '0')->get();
+
+            if($events){
+
+                foreach ($events as  $event) {
+                    $event->pausado = 1;
+                    $event->save();
+                }
+            }
+
+            DB::commit();
+            Log::info(" Token Retirado" . json_encode( compact('user_id') ));
+            $url = env('URL_ADMIN_PANEL') . '?success=2';
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al desvincular el usuario');
+            $url = env('URL_ADMIN_PANEL') . '?error=1';
+            Log::error("No Redirect Mercado Pago" . json_encode( compact('code' , 'response') ));
+
+        }//catch
+        return redirect($url);
     }
 
 }
