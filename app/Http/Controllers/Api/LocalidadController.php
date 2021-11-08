@@ -17,6 +17,7 @@ class LocalidadController extends Controller
         $include = $request->input('include') ?? [];
         $type_query = $request->input('type_query');
         $id = $request->input('id');
+        $provincia_id = $request->input('provincia_id');
         $page  = $request->input('page');
         $orderBy= $request->input('orderBy') ?? 'descripcion';
         $orderDirection= $request->input('orderDirection') ?? 'ASC';
@@ -25,7 +26,9 @@ class LocalidadController extends Controller
 
             $query = Model::with($include)->distinct();
 
+            if($provincia_id) $query->where("geo_provincia_id", $provincia_id);
             if($id) $query->whereRaw("REPLACE(descripcion , ' ' , ''  ) = ?", [$id]);
+
 
             $query->orderBy($orderBy, $orderDirection );
 

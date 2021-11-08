@@ -30,6 +30,11 @@ Route::group(['middleware' => ['cors']], function () {
         Route::get('/desauthorization/{user_id}', 'Api\MercadoPagoController@desauthorization');
         Route::get('/redirect', 'Api\MercadoPagoController@redirect');
     });
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', 'Api\UserController@index');
+    });
+
     Route::prefix('campania')->group(function () {
         Route::get('/', 'Api\CampaniaController@index');
         Route::post('/', 'Api\CampaniaController@store')->middleware('jwt.verify.role:admin|user');

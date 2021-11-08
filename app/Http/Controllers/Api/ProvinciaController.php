@@ -15,6 +15,7 @@ class ProvinciaController extends Controller
         $include = $request->input('include') ?? [];
         $type_query = $request->input('type_query');
         $id = $request->input('id');
+        $pais_id = $request->input('pais_id');
         $page  = $request->input('page');
         $orderBy= $request->input('orderBy') ?? 'descripcion';
         $orderDirection= $request->input('orderDirection') ?? 'ASC';
@@ -23,7 +24,10 @@ class ProvinciaController extends Controller
 
             $query = Model::with($include);
 
+
             if($id) $query->whereRaw("REPLACE(descripcion , ' ' , ''  ) = ?", [$id]);
+            if($pais_id) $query->where('geo_pais_id' , $pais_id);
+
 
             $query->orderBy($orderBy, $orderDirection );
 

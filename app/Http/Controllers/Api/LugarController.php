@@ -36,8 +36,8 @@ class LugarController extends Controller
                 CONCAT(
                     CONVERT(lug.id_lugar_campania , CHAR) , '-' ,
                     CONVERT(id_pais , CHAR) , '-' ,
-                    pro.descripcion, '-' ,
-                    loc.descripcion , '-' ,
+                    REPLACE(pro.descripcion , ' ' , ''  ) , '-' ,
+                    REPLACE(loc.descripcion , ' ' , ''  )   , '-' ,
                     direccion , '-' ,
                     nombre , '-' ,
                     CONVERT(  capacidadLugar , CHAR)
