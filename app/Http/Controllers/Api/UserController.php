@@ -75,7 +75,7 @@ class UserController extends Controller
         if($status_mercadopago){
 
           switch ($status_mercadopago) {
-            case '1': $query->where('access_token' , ''); break;
+            case '1': $query->where('access_token' , '')->orWhere('access_token' , null); break;
             case '2': $query->where('access_token' , '<>', ''); break;
             case '3': $query->whereDate('time_token' , '>=' ,  now()->date('Y-m-d') ); break;
           }
