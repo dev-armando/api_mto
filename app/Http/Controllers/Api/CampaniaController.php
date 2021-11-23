@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Campanium as Model , Comision, ComisionesVariable};
+use App\Models\{Campanium as Model , Comision, ComisionesVariable, LugarCampanium as Lugar};
 use App\Http\Resources\CampaniaListCollection as ListCollectiion;
 use App\Http\Traits\HelperTrait as Helper;
 use Exception, DB, JWTAuth;
@@ -72,6 +72,37 @@ class CampaniaController extends Controller
             if(!$comision) $this->executeMessageError('Error comision no encontrada',400);
 
             DB::beginTransaction();
+
+            if( $request->input('otro_lugar')  ){
+
+                $entityLugar = Lugar::create([
+                    'nombre'  =>  $data['otro_lugar'],
+                    'id_pais' =>  $data['pais_id'],
+                    'id_provincia'  => $data['provincia_id'],
+                    'id_localidad'  => $data['localidad_id'],
+                    'direccion'  => $data['direccion'],
+                    'capacidadLugar'  => $data['capacidadLugar']
+                ]);
+
+                $newLugarSelect = $this->decodeUft8($this->addSelectAux( DB::select("SELECT distinct
+                    CONCAT(
+                        CONVERT(lug.id_lugar_campania , CHAR) , '-' ,
+                        CONVERT(id_pais , CHAR) , '-' ,
+                        REPLACE(pro.descripcion , ' ' , ''  ) , '-' ,
+                        REPLACE(loc.descripcion , ' ' , ''  )   , '-' ,
+                        direccion , '-' ,
+                        nombre , '-' ,
+                        CONVERT(  capacidadLugar , CHAR)
+                    ) as id,
+                    nombre as text
+                    FROM  `lugar_campania` as  lug ,geo_provincia  as pro ,geo_localidad as loc
+                    where lug.id_provincia=pro.id
+                    and  lug.id_localidad=loc.id
+                    AND lug.id_lugar_campania = {$entityLugar->id_lugar_campania}
+                    order by nombre ASC")));
+
+                $data['lugar'] = $newLugarSelect[0]['id'];
+            }
 
             $id_entity = Model::orderBy('id_campania', 'DESC')->first();
 
@@ -153,6 +184,49 @@ class CampaniaController extends Controller
         }
         return $this->response($response, $code ?? 201);
     }
+
+    public function show($id)
+    {
+        try {
+            $entity=Model::with('entradas')->find($id);
+
+            $this->validModel($entity, 'Evento no encontrado');
+
+            $response = $this->getSuccessResponse($entity);
+        } catch (\Exception $e) {
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al realizar la consulta');
+        }//catch
+        return $this->response($response, $code ?? 200);
+    }//show()
+
+    public function update($id, Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $entity=Model::find($id);
+            $this->validModel($entity, 'Evento no encontrado');
+
+            $data = $request->except('entradas');
+            $dataEntradas = $request->only('entradas');
+            $entity->update($data);
+
+            //$entityEntradas = $entity->entradas();
+
+           // $entityEntradas->update($dataEntradas);
+
+            DB::commit();
+            $response = $this->getSuccessResponse($entity , "Actualización exitosa");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'La actualización de datos ha fallado');
+        }//catch
+        return $this->response($response, $code ?? 200);
+    }//update()
+
+
+
 
 
 
