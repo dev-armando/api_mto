@@ -118,7 +118,7 @@ class CampaniaController extends Controller
                 'fecha' => date("Y-m-d"),
                 'lugar' => explode("-", $data['lugar'])[0],
                 'importe' => '',
-                'estado' => 0,
+                'estado' => 2,
                 'direccion' => $data['direccion'],
                 'localidad' => $data['localidad_id'],
                 'provincia' => $data['provincia_id'],
