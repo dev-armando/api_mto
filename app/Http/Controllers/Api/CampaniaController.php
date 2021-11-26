@@ -207,9 +207,61 @@ class CampaniaController extends Controller
             $entity=Model::find($id);
             $this->validModel($entity, 'Evento no encontrado');
 
+            $user = JWTAuth::parseToken()->authenticate();
+
             $data = $request->except('entradas');
             $dataEntradas = $request->only('entradas');
-            $entity->update($data);
+            $entity->update([
+                'id_comercio' => 1,
+                'id_artista' => 1,
+                'id_calendario' => 1,
+                'cantidad' => $data['entradasCantidad'],
+                'fecha' => date("Y-m-d"),
+                'lugar' => explode("-", $data['lugar'])[0],
+                'importe' => '',
+                'estado' => 2,
+                'direccion' => $data['direccion'],
+                'localidad' => $data['localidad_id'],
+                'provincia' => $data['provincia_id'],
+                'usuario' => $user->idusuario,
+                'vendidas' => '0',
+                'tipo' => '',
+                'nombreCampania' => $data['evento'],
+                'importeinicial' => '',
+                'fechaMod' => '',
+                'fechaEvento' => $data['fecha'],
+                'lugarEvento' => explode("-", $data['lugar'])[5],
+                'pais' => $data['pais_id'],
+                'hora_evento' => $data['hora'],
+                'hora_puerta' => $data['hora_puerta'],
+                'facebook' => $data['facebook'] ?? ' ',
+                'twitter' => $data['twitter'] ?? ' ' ,
+                'youtube' => $data['youtube'] ?? ' ',
+                'categoria_id' => $data['categoria_id'],
+                'subcategoria_id' => $data['subcategoria_id'],
+                'cantidadFecha' => '',
+                'slider' => '',
+                'imagen' => $this->from_base64_to_img_helper($data['uploadImage2'] , env('DIR_IMG_EVENTS') ,  $entity->id_campania  ),
+                'titulo' => $data['titulo'],
+                'descripcion' => $data['descripcion'],
+                'sitio_oficial' => $data['sitioOficial'] ?? ' ',
+                'artistaEvento' => $data['artistaEvento'],
+                'fecha_mod' => '',
+                'publico_evento' => $data['publico_evento'],
+                'mostrarEventoEnSitio' => $data['mostrarEventoEnSitio'],
+                'slug_campania' => $this->get_slug_helper($data['evento']).'-'. $entity->id_campania
+            ]);
+
+            $id_entradas = [];
+
+            foreach($dataEntradas as $entrada){
+                $id_entradas[] = $entrada['id_evento']; 
+            }
+
+
+            DB::table('tipoentradas')->where('id_campania',$entity->id_campania)
+            ->whereNotIn('id_tipoent', $id_entradas  )
+            ->delete();
 
             //$entityEntradas = $entity->entradas();
 
