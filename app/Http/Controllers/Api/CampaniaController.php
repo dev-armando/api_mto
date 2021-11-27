@@ -124,7 +124,7 @@ class CampaniaController extends Controller
                 'provincia' => $data['provincia_id'],
                 'usuario' => $user->idusuario,
                 'vendidas' => '0',
-                'tipo' => '',
+                'tipo' => 2,
                 'nombreCampania' => $data['evento'],
                 'importeinicial' => '',
                 'iibb' =>  $comision->iibb,
@@ -255,7 +255,7 @@ class CampaniaController extends Controller
             $id_entradas = [];
 
             foreach($dataEntradas as $entrada){
-                $id_entradas[] = $entrada['id_evento']; 
+                $id_entradas[] = $entrada['id_evento'];
             }
 
 
