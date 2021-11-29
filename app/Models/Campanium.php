@@ -79,7 +79,7 @@ class Campanium extends Model
 	protected $table = 'campania';
 	protected $primaryKey = 'id_campania';
 	public $timestamps = false;
-
+	public $incrementing = false;
 
 	protected $casts = [
 		'id_comercio' => 'int',

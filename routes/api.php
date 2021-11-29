@@ -38,6 +38,7 @@ Route::group(['middleware' => ['cors']], function () {
     Route::prefix('campania')->group(function () {
         Route::get('/', 'Api\CampaniaController@index');
         Route::post('/', 'Api\CampaniaController@store')->middleware('jwt.verify.role:admin|user');
+        Route::get('/comision/{price}', 'Api\CampaniaController@store')->middleware('jwt.verify.role:admin|user');
         Route::post('/update', 'Api\CampaniaController@update')->middleware('jwt.verify.role:admin|user');
 
     });

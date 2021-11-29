@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Tipoentrada
- * 
+ *
  * @property int $id_tipoent
  * @property int $id_campania
  * @property string $nombre
@@ -37,6 +37,7 @@ class Tipoentrada extends Model
 	protected $table = 'tipoentradas';
 	protected $primaryKey = 'id_tipoent';
 	public $timestamps = false;
+	public $incrementing = false;
 
 	protected $casts = [
 		'id_campania' => 'int',
@@ -73,6 +74,12 @@ class Tipoentrada extends Model
 		'valor_entrada_free',
 		'fechaPedido',
 		'fechaActivacion',
-		'fechaExpiracion'
+		'fechaExpiracion',
+		'id_tipoent'
 	];
+
+	public static function lastId()
+    {
+        return (int)static::orderBy('id_tipoent', 'DESC')->first()->id_tipoent ?? 0;
+    }
 }

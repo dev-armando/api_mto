@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{Campanium as Model , Comision, ComisionesVariable, LugarCampanium as Lugar};
+use Carbon\Carbon;
+use App\Models\{Campanium as Model , Comision, ComisionesVariable, LugarCampanium as Lugar, Tipoentrada as Entrada};
 use App\Http\Resources\CampaniaListCollection as ListCollectiion;
 use App\Http\Traits\HelperTrait as Helper;
 use Exception, DB, JWTAuth;
@@ -106,7 +107,7 @@ class CampaniaController extends Controller
 
             $id_entity = Model::orderBy('id_campania', 'DESC')->first();
 
-            $id_entity = (!$id_entity) ? '0' : $id_entity->id_campania;
+            $id_entity = (!$id_entity) ? 0 : (int)$id_entity->id_campania;
             $id_entity++;
 
             $entity = Model::create([
@@ -135,8 +136,8 @@ class CampaniaController extends Controller
                 'fechaEvento' => $data['fecha'],
                 'lugarEvento' => explode("-", $data['lugar'])[5],
                 'pais' => $data['pais_id'],
-                'hora_evento' => $data['hora'],
-                'hora_puerta' => $data['hora_puerta'],
+                'hora_evento' =>  Carbon::parse($data['hora'])->format('H:m') ,
+                'hora_puerta' =>  Carbon::parse($data['hora_puerta'])->format('H:m') ,
                 'facebook' => $data['facebook'] ?? ' ',
                 'twitter' => $data['twitter'] ?? ' ' ,
                 'youtube' => $data['youtube'] ?? ' ',
@@ -155,6 +156,8 @@ class CampaniaController extends Controller
                 'slug_campania' => $this->get_slug_helper($data['evento']).'-'. $id_entity
             ]);
 
+            $id_entrada = Entrada::lastId();
+
             foreach ($data['entradas'] as $entrada) {
 
                 $comisionVariable = ComisionesVariable::where('valor_entrada' , '<=' , $entrada['precio'])
@@ -162,6 +165,7 @@ class CampaniaController extends Controller
                 ->first();
 
                 $entity->entradas()->create([
+                    'id_tipoent' => ++$id_entrada,
                     'nombre' => $entrada['nombreEntrada'],
                     'cantidad' => $entrada['cantidad'],
                     'precio' => $entrada['preciof'],
@@ -170,10 +174,12 @@ class CampaniaController extends Controller
                     'comision_usuario' =>    $comisionVariable->comision_usuario,
                     'fechaActivacion' => $entrada['fecha_act'] . ' '. $entrada['hora_act'],
                     'fechaExpiracion' => $entrada['fecha_exp'] . ' '. $entrada['hora_exp'],
+                    'tipoentradas' => 2
 
                 ]);
             }
             DB::commit();
+            $entity->load('entradas');
             $response = $this->getSuccessResponse($entity,"Registro exitoso");
 
         } catch (Exception $e) {
@@ -183,6 +189,28 @@ class CampaniaController extends Controller
 
         }
         return $this->response($response, $code ?? 201);
+    }
+
+    public function showComision($price){
+
+
+        try {
+            $comisionVariable = ComisionesVariable::where('valor_entrada' , '<=' , $price)
+                    ->orderBy("valor_entrada","DESC")
+                    ->first();
+
+            $this->validModel($comisionVariable, 'Comision no encontrada');
+
+            $response = $this->getSuccessResponse($comisionVariable);
+
+        } catch (Exception $e) {
+
+            $code = $this->getCleanCode($e);
+            $response= $this->getErrorResponse($e, 'Error al consultar los registros');
+
+        }
+        return $this->response($response, $code ?? 200);
+
     }
 
     public function show($id)
@@ -199,6 +227,10 @@ class CampaniaController extends Controller
         }//catch
         return $this->response($response, $code ?? 200);
     }//show()
+
+    public function showPrice($mount){
+
+    }
 
     public function update($id, Request $request)
     {
@@ -232,8 +264,8 @@ class CampaniaController extends Controller
                 'fechaEvento' => $data['fecha'],
                 'lugarEvento' => explode("-", $data['lugar'])[5],
                 'pais' => $data['pais_id'],
-                'hora_evento' => $data['hora'],
-                'hora_puerta' => $data['hora_puerta'],
+                'hora_evento' => $data['hora']->format('H:m')  ,
+                'hora_puerta' => $data['hora_puerta']->format('H:m'),
                 'facebook' => $data['facebook'] ?? ' ',
                 'twitter' => $data['twitter'] ?? ' ' ,
                 'youtube' => $data['youtube'] ?? ' ',
