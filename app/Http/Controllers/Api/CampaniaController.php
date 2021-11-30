@@ -192,8 +192,6 @@ class CampaniaController extends Controller
     }
 
     public function showComision($price){
-
-
         try {
             $comisionVariable = ComisionesVariable::where('valor_entrada' , '<=' , $price)
                     ->orderBy("valor_entrada","DESC")
@@ -228,9 +226,7 @@ class CampaniaController extends Controller
         return $this->response($response, $code ?? 200);
     }//show()
 
-    public function showPrice($mount){
 
-    }
 
     public function update($id, Request $request)
     {
